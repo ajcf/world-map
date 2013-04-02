@@ -13,7 +13,8 @@ class ClickTypesController < ApplicationController
   # GET /click_types/1
   # GET /click_types/1.json
   def show
-    @click_type = ClickType.find(params[:id])
+    @click_type = ClickType.find_by_name(params[:name]) if params[:name]
+    @click_type = ClickType.find(params[:id]) if params[:id]
 
     respond_to do |format|
       format.html # show.html.erb

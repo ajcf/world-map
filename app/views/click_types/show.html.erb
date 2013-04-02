@@ -1,10 +1,72 @@
+<script>
+  Raphael(10, 10, 1000, 400, function () {
+    var r = this;
+    r.rect(0, 0, 1000, 400, 10).attr({
+      stroke: "none",
+      fill: "0-#9bb7cb-#adc8da"
+    });
+    var over = function () {
+      this.c = this.c || this.attr("fill");
+      this.stop().animate({fill: "#bacabd"}, 500);
+    },
+    out = function () {
+      this.stop().animate({fill: this.c}, 500);
+    };
+    r.setStart();
+    var hue = Math.random();
+    for (var country in worldmap.shapes) {
+      console.log('hello');
+      var c = r.path(worldmap.shapes[country]);
+      c.attr({stroke: "#ccc6ae", fill: "#f0efeb", "stroke-opacity": 0.25});
+      c.id = country;
+      c.click(parseAdd);
+      r.getById(country)[0].setAttribute('data-hits', 0);
+    }
+    var world = r.setFinish();
+    world.hover(over, out);
+    var cfrm = document.getElementById("country-form");
+    var directory = {};
+    for(var i in worldmap.names){
+      directory[worldmap.names[i]] = i;
+    }
+    for(var c in directory){
+      var o = document.createElement('option');
+      o.value = c;
+      console.log(o);
+      document.getElementById('countries').appendChild(o);
+    }
+    cfrm.onsubmit = function() {
+      if(directory[document.getElementById('cntry').value] != undefined){
+        document.getElementById('error').style.display = "none";
+        parseAdd(r.getById(directory[document.getElementById('cntry').value])[0]);
+      } else {
+        document.getElementById('error').style.display = 'block';
+        console.log(document.getElementById('cntry'));
+      }
+      return false;
+    }
+    var parseAdd = function(c){
+      console.log(c);
+      c.setAttribute('data-hits', parseInt(c.getAttribute('data-hits'), 10)+1);
+      c.setAttribute('fill', lightenDarkenColor(c.getAttribute('fill'), -5));
+      document.getElementById('cntry').value = '';
+      document.getElementById('success').style.display = 'block';
+      window.setTimeout(slowhide, 4000);
+    }
+    var slowhide = function(){document.getElementById('success').style.display="none"}
+  });
+</script>
 <p id="notice"><%= notice %></p>
-
-<p>
-  <b>Name:</b>
-  <%= @click_type.name %>
-</p>
-
-
-<%= link_to 'Edit', edit_click_type_path(@click_type) %> |
-<%= link_to 'Back', click_types_path %>
+<div id="world-map">
+</div>
+<form id="country-form">
+  <div id='error' style="color:red;display:none">
+    <b>Country not found!</b>
+  </div>
+  <div id='success' style='color:green;display:none'>
+    <b>Country added!</b>
+  </div>
+  Type the name of a country to add it to the map: <input id="cntry" list="countries">
+  <button type="submit">Add</button>
+</form>
+<datalist id="countries"></datalist>
