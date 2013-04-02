@@ -1,4 +1,18 @@
 WorldMap::Application.routes.draw do
+
+  root to: 'click_types#index'
+
+  match '/:name' => '/click_types#show'
+  match '/countries/:name' '/countries#show'
+
+  resources :countries
+
+
+  resources :clicks
+
+
+  resources :click_types
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

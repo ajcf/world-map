@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Click type:</b>
+  <%= @click.click_type_id %>
+</p>
+
+<p>
+  <b>Country:</b>
+  <%= @click.country_id %>
+</p>
+
+<p>
+  <b>Count:</b>
+  <%= @click.count %>
+</p>
+
+
+<%= link_to 'Edit', edit_click_path(@click) %> |
+<%= link_to 'Back', clicks_path %>

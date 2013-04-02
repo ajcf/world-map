@@ -1,0 +1,23 @@
+<h1>Listing click_types</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @click_types.each do |click_type| %>
+  <tr>
+    <td><%= click_type.name %></td>
+    <td><%= link_to 'Show', click_type %></td>
+    <td><%= link_to 'Edit', edit_click_type_path(click_type) %></td>
+    <td><%= link_to 'Destroy', click_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Click type', new_click_type_path %>
